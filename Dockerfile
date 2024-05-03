@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the application code
 COPY . .
@@ -16,21 +16,25 @@ COPY . .
 # Build the application
 RUN npm run build
 
+# Remove useless dependencies
+RUN npm ci --production
+
 # Stage 2: Create the lightweight image
-FROM node:lts-alpine
+FROM alpine:latest
+
+# Install node on the Alpine image
+RUN apk add nodejs --no-cache
 
 # Set working directory in the container
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
+COPY LICENSE ./
 
 # Copy only the built application code
+COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/dist ./dist
-COPY --from=build /usr/src/app/LICENCE ./
-
-# Install only production dependencies
-RUN npm install --production
 
 # Command to run the application
-CMD ["npm", "start"]
+CMD ["node", "./dist/app.js"]
