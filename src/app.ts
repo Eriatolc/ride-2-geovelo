@@ -1,10 +1,12 @@
 // src/app.ts
 import { CorosService } from './services/coros.service'
 import { GeoveloService } from './services/geovelo.service'
+import config from './config/config'
 import { DateTime } from 'luxon'
 
 async function main () {
   console.log('Starting ride2geovelo application...')
+  console.log('Config used: ', config)
   const today = DateTime.now()
 
   const geovelo = new GeoveloService()

@@ -21,7 +21,7 @@
     "start": "node ./dist/app.js",
     "dev": "tsc && node ./dist/app.js",
     "build": "tsc",
-    "docker-build": "docker build -t $(git describe --tags --exact-match 2> /dev/null || git rev-parse --short HEAD) .",
+    "docker-build": "docker build -t ride2geovelo:$(git describe --tags --exact-match 2> /dev/null || git rev-parse --short HEAD) .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

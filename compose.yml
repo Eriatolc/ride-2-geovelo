@@ -1,0 +1,35 @@
+# docker-compose.yml
+
+version: '3.9'
+
+services:
+  ride2geovelo:
+    image: ride2geovelo:$(git describe --tags --exact-match 2> /dev/null || git rev-parse --short HEAD)
+    container_name: ride2geovelo
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - STRAVA_CLIENTID=${STRAVA_CLIENTID}
+      - STRAVA_CLIENTSECRET=${STRAVA_CLIENTSECRET}
+      - STRAVA_CLIENTACCESSTOKEN=${STRAVA_CLIENTACCESSTOKEN}
+      - STRAVA_REFRESHTOKEN=${STRAVA_REFRESHTOKEN}
+      - COROS_URL=${COROS_URL}
+      - COROS_LOGINENDPOINT=${COROS_LOGINENDPOINT}
+      - COROS_ACTIVITYQUERYENDPOINT=${COROS_ACTIVITYQUERYENDPOINT}
+      - COROS_ACTIVITYDOWNLOADENDPOINT=${COROS_ACTIVITYDOWNLOADENDPOINT}
+      - COROS_LOGIN=${COROS_LOGIN}
+      - COROS_PASSWORD=${COROS_PASSWORD}
+      - GEOVELO_URL=${GEOVELO_URL}
+      - GEOVELO_APIKEY=${GEOVELO_APIKEY}
+      - GEOVELO_SOURCE=${GEOVELO_SOURCE}
+      - GEOVELO_LOGIN=${GEOVELO_LOGIN}
+      - GEOVELO_PASSWORD=${GEOVELO_PASSWORD}
+      - GEOVELO_LOGINENDPOINT=${GEOVELO_LOGINENDPOINT}
+      - GEOVELO_IMPORTGPXENDPOINT=${GEOVELO_IMPORTGPXENDPOINT}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "7"
