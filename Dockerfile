@@ -37,4 +37,4 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/dist ./dist
 
 # Command to run the application
-CMD ["node", "./dist/app.js"]
+CMD ["node", "./dist/src/app.js"]

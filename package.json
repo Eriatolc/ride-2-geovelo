@@ -18,10 +18,12 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "start": "node ./dist/app.js",
-    "dev": "tsc && node ./dist/app.js",
+    "start": "node ./dist/src/app.js",
+    "dev": "tsc && dotenvx run -f .env -- node ./dist/src/app.js",
     "build": "tsc",
-    "docker-build": "docker build -t ride2geovelo:$(git describe --tags --exact-match 2> /dev/null || git rev-parse --short HEAD) .",
+    "release": "npm run docker-build && npm run docker-publish",
+    "docker-build": "docker build -t git.eriatolc.fr/eriatolc/ride2geovelo:$(git describe --tags --exact-match 2> /dev/null || git rev-parse --short HEAD) .",
+    "docker-publish": "docker push git.eriatolc.fr/eriatolc/ride2geovelo:$(git describe --tags --exact-match 2> /dev/null || git rev-parse --short HEAD)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
