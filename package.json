@@ -4,23 +4,32 @@
   "description": "Gather biking ride from different platforms and push them to Geovelo.",
   "main": "dist/app.js",
   "dependencies": {
+    "@dotenvx/dotenvx": "^0.37.0",
     "axios": "^1.6.3",
+    "dotenv": "^16.4.5",
+    "form-data": "^4.0.0",
     "luxon": "^3.4.4"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.10.6",
+    "jest": "^29.7.0",
     "typescript": "^5.3.3"
   },
   "scripts": {
     "start": "node ./dist/app.js",
+    "dev": "tsc && node ./dist/app.js",
+    "build": "tsc",
+    "docker-build": "docker build -t $(git describe --tags --exact-match 2> /dev/null || git rev-parse --short HEAD) .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "Geovelo",
+    "Coros",
     "GPX",
     "bike"
   ],
   "author": "Eriatolc <eriatolc@proton.me>",
-  "license": "UNLICENSED"
+  "license": "CC-BY-SA-NC-4.0"
 }
