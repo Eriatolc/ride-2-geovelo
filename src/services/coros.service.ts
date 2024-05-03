@@ -10,15 +10,14 @@ export class CorosService {
   private accessToken: string
 
   constructor () {
-    this.login = config.coros.login
-    this.password = config.coros.password
-    this.url = config.coros.url
+    this.login = config.coros.login as string
+    this.password = config.coros.password as string
+    this.url = config.coros.url as string
     this.accessToken = ''
   }
 
   public async authenticate (): Promise<void> {
     try {
-
       const body = {
         account: this.login,
         accountType: 2,
@@ -29,22 +28,16 @@ export class CorosService {
         `${this.url}${config.coros.loginEndpoint}`,
         JSON.stringify(body),
         {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          headers: { 'Content-Type': 'application/json' }
         }
       )
-      // console.log('authenticateResponse => ', response.data)
-      // console.log('data.accessToken : ', response.data.data)
       this.accessToken = response.data.data.accessToken
     } catch (error) {
       console.error('Coros authentication error:', error)
-      // if (hasMessage(error)) throw new Error(`Strava authentication error: ${error.message}`);
     }
   }
 
   public async getRidingActivitiesByDate (startDay: DateTime, endDay: DateTime): Promise<any[]> {
-    // console.log('this.accessToken : ', this.accessToken)
     if (!this.accessToken || this.accessToken === '') {
       throw new Error('Not authenticated on Coros. Please authenticate first.')
     }
@@ -63,12 +56,10 @@ export class CorosService {
           headers: { accessToken: `${this.accessToken}` },
         }
       )
-      // console.log('RidingActivities => ', response.data)
       return response.data
     } catch (error) {
       console.error('Coros getRidingActivities error:', error)
       return []
-      // throw new Error(`Error fetching Strava activities: ${error.message}`);
     }
   }
 
@@ -91,11 +82,8 @@ export class CorosService {
           headers: { accessToken: `${this.accessToken}` },
         }
       )
-      // console.log('getDownloadLink => ', response)
       const downloadUrl = response.data.data.fileUrl
-      console.log('downloadUrl => ', downloadUrl)
       const gpxFile = await axios.get(downloadUrl, { headers: { accessToken: `${this.accessToken}` } })
-      // console.log('gpxFile => ', gpxFile.data)
       return gpxFile.data
     } catch (error) {
       console.error('Coros download GPX error:', error)

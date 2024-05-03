@@ -1,8 +1,7 @@
 // services/geovelo.service.ts
 import axios from 'axios'
+import FormData from 'form-data'
 import config from '../config/config'
-import * as  fs from 'fs'
-import path from 'path'
 
 export class GeoveloService {
   private login: string
@@ -11,7 +10,6 @@ export class GeoveloService {
   private accessToken: string
   private apiKey: string
   private source: string
-  private userID: string
 
   constructor () {
     this.login = config.geovelo.login
@@ -20,7 +18,6 @@ export class GeoveloService {
     this.accessToken = ''
     this.apiKey = config.geovelo.apiKey
     this.source = config.geovelo.source
-    this.userID = ''
   }
 
   public async authenticate (): Promise<void> {
@@ -41,14 +38,9 @@ export class GeoveloService {
           }
         }
       )
-      console.log('authenticateResponse => ', response.headers)
       this.accessToken = response.headers['authorization']
-      this.userID = response.headers['userid']
-      console.log('this.accessToken => ', this.accessToken)
-      console.log('this.userID => ', this.userID)
     } catch (error) {
       console.error('Geovelo authentication error:', error)
-      // if (hasMessage(error)) throw new Error(`Strava authentication error: ${error.message}`);
     }
   }
 
@@ -60,41 +52,24 @@ export class GeoveloService {
     if (!gpxFile) {
       throw new Error('No GPX file to send!')
     }
-    // const timestamp = new Date().getTime()
-    const timestamp = "22303371055826668733134596594"
-    const boundary = `-----------------------------${timestamp}`
-    const blankLine = '\r\n'
-    const firstLineContentDisposition = `Content-Disposition: form-data; name="gpx"; filename="${labelId}.gpx"\r\n`
-    const firstLineContentType = 'Content-Type: application/octet-stream\r\n'
 
-    const prefix = boundary + blankLine + firstLineContentDisposition + firstLineContentType + blankLine
-
-    const contentDisposition = 'Content-Disposition: form-data; name="title"\r\n'
-    const labelIdLine = `${labelId}\r\n`
-    const endBoundary = '--'
-    const suffix = blankLine + boundary + blankLine + contentDisposition + blankLine + labelIdLine + boundary + endBoundary + blankLine
-
-    gpxFile = prefix + gpxFile + suffix
+    const formData = new FormData()
+    formData.append('gpx', gpxFile, { filename: `${labelId}.gpx` })
+    formData.append('title', labelId)
 
     try {
-      console.log('URL : ', `${this.url}${config.geovelo.importGPXEndpoint}`)
-      fs.writeFileSync(path.join(__dirname, '../../preparedGPX.gpx'), gpxFile)
       const response = await axios.post(
         `${this.url}${config.geovelo.importGPXEndpoint}`,
-        gpxFile,
+        formData,
         {
           headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
-            "Accept": "*/*",
-            "Accept-Language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
-            "Content-Type": `multipart/form-data; boundary=${boundary}`,
-            "Authorization": this.accessToken,
-            "Api-key": this.apiKey,
-            "Source": this.source
+            Authorization: this.accessToken,
+            'Api-key': this.apiKey,
+            Source: this.source,
+            'Content-Type': `multipart/form-data`
           }
         }
       )
-      console.log('pushGPXReponse => ', response)
     } catch (error) {
       console.error('Geovelo import GPX error:', error)
     }
