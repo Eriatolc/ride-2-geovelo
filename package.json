@@ -1,6 +1,6 @@
 {
   "name": "ride-2-geovelo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gather biking ride from different platforms and push them to Geovelo.",
   "main": "dist/app.js",
   "dependencies": {

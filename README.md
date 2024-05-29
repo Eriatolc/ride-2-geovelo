@@ -42,7 +42,7 @@ You will need the following informations:
 You can also download the Docker image directly from this repository's registry.
 
 ```bash
-docker pull git.eriatolc.fr/eriatolc/ride2geovelo:<tag_of_your_choice>
+docker pull ghcr.io/eriatolc/ride2geovelo:<tag_of_your_choice>
 ```
 
 Replace `<tag_of_your_choice>` by the version you choose.
@@ -52,7 +52,7 @@ Replace `<tag_of_your_choice>` by the version you choose.
 Add to you crontab the following entry
 
 ```bash
-30 23 * * * docker run --env-file /path/to/your/env/file/.env git.eriatolc.fr/eriatolc/ride2geovelo:1.0.0 > /path/to/a/folder/you/want/cron.log
+30 23 * * * docker run --env-file /path/to/your/env/file/.env ghcr.io/eriatolc/ride2geovelo:1.0.0 > /path/to/a/folder/you/want/cron.log
 ```
 
 > This crontab entry example will start the program at 11:30pm, every day of every month of every year.
