@@ -18,9 +18,9 @@ async function main () {
   const corosActivities = await corosService.getRidingActivitiesByDate(today, today)
 
   let count = 0
-  if (corosActivities && corosActivities.length && corosActivities.length > 0) {
+  if (corosActivities && corosActivities.length > 0) {
     // @ts-ignore
-    const activitiesID = corosActivities.data.dataList.map(item => item.labelId)
+    const activitiesID = corosActivities.map(item => item.labelId)
     console.log(`${activitiesID.length} activites to upload...`)
     let corosGPXFile
     for await (const item of activitiesID) {

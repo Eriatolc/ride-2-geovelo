@@ -56,7 +56,7 @@ export class CorosService {
           headers: { accessToken: `${this.accessToken}` },
         }
       )
-      return response.data
+      return response.data.data.dataList
     } catch (error) {
       console.error('Coros getRidingActivities error:', error)
       return []
