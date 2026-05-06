@@ -50,7 +50,7 @@ export class CorosService {
 
     const SIZE = '50'
     const PAGE_NUMBER = '1'
-    const MODE_LIST = '299,200'
+    const MODE_LIST = '299,200,202,203,204,205'
 
     try {
       const response = await axios.get(
