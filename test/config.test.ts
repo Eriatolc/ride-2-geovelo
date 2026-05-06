@@ -15,7 +15,8 @@ describe('Configuration', () => {
     expect(config.coros.activityQueryEndpoint).toBeDefined();
     expect(config.coros.activityDownloadEndpoint).toBeDefined();
     expect(config.coros.login).toBeDefined();
-    expect(config.coros.password).toBeDefined();
+    expect(config.coros.p1).toBeDefined();
+    expect(config.coros.p2).toBeDefined();
   });
 
   it('should have defined values for Geovelo configuration', () => {
