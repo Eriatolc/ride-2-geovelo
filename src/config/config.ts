@@ -11,7 +11,8 @@ export default {
     activityQueryEndpoint: process.env.COROS_ACTIVITYQUERYENDPOINT || '',
     activityDownloadEndpoint: process.env.COROS_ACTIVITYDOWNLOADENDPOINT || '',
     login: process.env.COROS_LOGIN || '',
-    password: process.env.COROS_PASSWORD || ''
+    p1: process.env.COROS_PASSWORD_HASH_1 || '',
+    p2: process.env.COROS_PASSWORD_HASH_2 || ''
   },
   geovelo: {
     url: process.env.GEOVELO_URL || '',

@@ -5,13 +5,15 @@ import { DateTime } from 'luxon'
 
 export class CorosService {
   private login: string
-  private password: string
+  private p1: string
+  private p2: string
   private url: string
   private accessToken: string
 
   constructor () {
     this.login = config.coros.login as string
-    this.password = config.coros.password as string
+    this.p1 = config.coros.p1 as string
+    this.p2 = config.coros.p2 as string
     this.url = config.coros.url as string
     this.accessToken = ''
   }
@@ -21,7 +23,8 @@ export class CorosService {
       const body = {
         account: this.login,
         accountType: 2,
-        pwd: this.password
+        p1: this.p1,
+        p2: this.p2
       }
 
       const response = await axios.post(
@@ -47,7 +50,7 @@ export class CorosService {
 
     const SIZE = '50'
     const PAGE_NUMBER = '1'
-    const MODE_LIST = '299,200'
+    const MODE_LIST = '299,200,202,203,204,205'
 
     try {
       const response = await axios.get(
